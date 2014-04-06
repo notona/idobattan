@@ -18,7 +18,9 @@ import java.net.CookieHandler;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,8 +34,8 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import javax.imageio.ImageIO;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.CookieStore;
@@ -42,17 +44,12 @@ import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.cookie.BasicClientCookie;
 
-import com.fasterxml.jackson.annotation.JsonFormat.Value;
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
-import com.fasterxml.jackson.databind.ObjectWriter;
+import com.sun.webkit.network.CookieManager;
 
 import eu.hansolo.enzo.notification.Notification.Notifier;
-import idobattan.IdobataMessage;
 
 
 public class Main extends Application {
@@ -64,15 +61,26 @@ public class Main extends Application {
     // setUpTray();
   }
 
-  public static void createMainWindow(Stage stage) {
-    Notifier.INSTANCE.notifyWarning("Tああああhis is a warning", "Info-Mあああessage");
-    Notifier.INSTANCE.notifyInfo("test", "");
+  public static void createMainWindow(Stage stage) {   
     WebView view = new WebView();
-    // view.set
+    try {
+    	// http://stackoverflow.com/questions/14385233/setting-a-cookie-using-javafxs-webengine-webview
+		String cookieString = FileUtils.readFileToString(new File("idobata_session.txt"));
+		
+		Map<String, List<String>> headers = new LinkedHashMap<String, List<String>>();
+		String[] cookieStrings = cookieString.split(";");
+		headers.put("Set-Cookie", Arrays.asList(cookieStrings[0]));
+		
+		CookieHandler default1 = CookieHandler.getDefault();
+		CookieHandler.getDefault().put(new URI("https://idobata.io"), headers);
 
+    } catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
     WebEngine engine = view.getEngine();
     engine.load("https://idobata.io/users/sign_in");
-
+    
     stage.setScene(new Scene(view, 1024, 768));
     stage.show();
     Platform.setImplicitExit(false);
@@ -111,8 +119,6 @@ public class Main extends Application {
       }
     });
 
-
-
     ActionListener menuActionListener = new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent event) {
@@ -122,8 +128,21 @@ public class Main extends Application {
             System.out.println("ss");
             break;
           case "終了":
-            System.exit(0);
-            break;
+    	    try {
+    	      CookieManager cookieManager = (CookieManager)CookieHandler.getDefault();
+          	 
+              Map<String, List<String>> map = 
+            		  cookieManager.get(new URI("https://idobata.io/"),
+                      new HashMap<String, List<String>>());
+
+              String allCookieString = map.get("Cookie").get(0);
+              FileUtils.writeStringToFile(new File("idobata_session.txt"), allCookieString);
+    	    } catch (Exception e) {
+			  // TODO Auto-generated catch block
+			  e.printStackTrace();
+    	    }
+    	    System.exit(0);
+    	    break;
         }
 
       }
@@ -146,6 +165,7 @@ public class Main extends Application {
                 Map<String, List<String>> map =
                     cookieManager.get(new URI("https://idobata.io/"),
                         new HashMap<String, List<String>>());
+                
                 // Content returnContent =
                 // Request.Get("https://idobata.io/api/messages/")//.setHeader("X-API-Token",
                 // "992ce37553d99d131bd55384ae9f9300")
