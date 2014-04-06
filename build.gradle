@@ -1,0 +1,21 @@
+apply plugin: "java"
+apply plugin: "eclipse"
+apply plugin: 'application'
+
+//sourceCompatibility = 1.8
+//targetCompatibility = 1.8
+
+
+mainClassName = 'idobattan.Main'
+
+repositories {
+        mavenCentral()
+}
+
+dependencies {
+        compile 'org.apache.httpcomponents:httpclient:4.3.3'
+        compile 'com.fasterxml.jackson.core:jackson-databind:2.3.2'
+        compile files('Enzo-0.1-SNAPSHOT.jar')
+        testCompile "junit:junit:4.11" 
+}
+
