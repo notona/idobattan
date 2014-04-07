@@ -67,4 +67,8 @@ final public class IdobataMessage {
   public String getBody() {
     return this.body;
   }
+  
+  public String getSenderName() {
+    return this.senderName;
+  }
 }

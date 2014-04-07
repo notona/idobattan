@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.web.*?>
+
+<AnchorPane prefHeight="439.0" prefWidth="761.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+  <!-- TODO Add Nodes -->
+  <children>
+    <SplitPane dividerPositions="0.6007905138339921" focusTraversable="true" prefHeight="439.0000999999975" prefWidth="761.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <items>
+        <WebView fx:id="webView" prefHeight="200.0" prefWidth="200.0" />
+        <WebView fx:id="timelineWebView" maxWidth="500.0" minWidth="300.0" prefHeight="200.0" prefWidth="400.0" />
+      </items>
+    </SplitPane>
+  </children>
+</AnchorPane>

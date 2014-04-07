@@ -16,6 +16,7 @@ dependencies {
 		compile 'commons-io:commons-io:2.4'
         compile 'org.apache.httpcomponents:httpclient:4.3.3'
         compile 'com.fasterxml.jackson.core:jackson-databind:2.3.2'
+        compile 'org.jsoup:jsoup:1.7.3'
         compile files('Enzo-0.1-SNAPSHOT.jar')
         testCompile "junit:junit:4.11" 
 }
