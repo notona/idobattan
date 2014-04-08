@@ -41,7 +41,7 @@ import com.sun.webkit.network.CookieManager;
 
 
 public class Main extends Application {
-  
+
   final Timer timer = new Timer();
 
   @Override
@@ -49,20 +49,21 @@ public class Main extends Application {
     createMainWindow(primaryStage);
     // setUpTray();
   }
-  
-  @FXML private WebView webView;
-  @FXML private WebView timelineWebView;
+
+  @FXML
+  private WebView webView;
+  @FXML
+  private WebView timelineWebView;
 
   public void createMainWindow(Stage stage) {
-    
-    
+
+
     AnchorPane root = null;
     try {
-      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
-          "front.fxml"));
-      //fxmlLoader.setRoot(this);
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("front.fxml"));
+      // fxmlLoader.setRoot(this);
       fxmlLoader.setController(this);
-      
+
       root = fxmlLoader.load();
       System.out.println("tt");
     } catch (IOException e) {
@@ -77,9 +78,9 @@ public class Main extends Application {
     stage.show();
     Platform.setImplicitExit(false);
     setupTray(stage);
-    
+
     WebEngine engine = webView.getEngine();
-    
+
     try {
       // http://stackoverflow.com/questions/14385233/setting-a-cookie-using-javafxs-webengine-webview
       String cookieString = FileUtils.readFileToString(new File("idobata_session.txt"));
@@ -95,14 +96,14 @@ public class Main extends Application {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    
-    
+
+
     engine.load("https://idobata.io/users/sign_in");
 
     WebEngine engine2 = timelineWebView.getEngine();
     engine2.load("https://idobata.io/#/timeline");
-    
-    
+
+
     timer.scheduleAtFixedRate(new NotificationThread(), 0, 2500);
   }
 
@@ -160,7 +161,7 @@ public class Main extends Application {
               // TODO Auto-generated catch block
               e.printStackTrace();
             }
-            
+
             System.exit(0);
             break;
         }
@@ -183,7 +184,7 @@ public class Main extends Application {
               NotificationThread.notifiy();
               stage.show();
             }
-            });
+          });
         }
       }
     });
