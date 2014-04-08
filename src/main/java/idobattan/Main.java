@@ -1,6 +1,7 @@
 package idobattan;
 
 import java.awt.AWTException;
+import java.awt.Desktop;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
@@ -14,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -23,6 +25,8 @@ import java.util.Timer;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -80,6 +84,7 @@ public class Main extends Application {
     setupTray(stage);
 
     WebEngine engine = webView.getEngine();
+    setDefaultBrowser(engine);
 
     try {
       // http://stackoverflow.com/questions/14385233/setting-a-cookie-using-javafxs-webengine-webview
@@ -101,10 +106,11 @@ public class Main extends Application {
     engine.load("https://idobata.io/users/sign_in");
 
     WebEngine engine2 = timelineWebView.getEngine();
+    setDefaultBrowser(engine2);
     engine2.load("https://idobata.io/#/timeline");
 
 
-    timer.scheduleAtFixedRate(new NotificationThread(), 0, 2500);
+    timer.scheduleAtFixedRate(new NotificationThread(), 0, 10000); // 10sec
   }
 
   private static void hide(final Stage stage) {
@@ -115,6 +121,30 @@ public class Main extends Application {
           stage.hide();
         } else {
           System.exit(0);
+        }
+      }
+    });
+  }
+
+  public static void setDefaultBrowser(final WebEngine webEngine) {
+    final Desktop desktop = Desktop.getDesktop();
+    webEngine.locationProperty().addListener(new ChangeListener<String>() {
+      @Override
+      public void changed(ObservableValue<? extends String> ov, final String oldLoc,
+          final String loc) {
+        if (!loc.contains("idobata.io")) {
+          Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+              webEngine.load(oldLoc);
+              try {
+                desktop.browse(new URI(loc));
+              } catch (IOException | URISyntaxException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+              }
+            }
+          });
         }
       }
     });
