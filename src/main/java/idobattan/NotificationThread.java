@@ -13,7 +13,10 @@ import java.util.Map;
 import java.util.TimerTask;
 
 import javafx.application.Platform;
+import javafx.geometry.Pos;
+import javafx.util.Duration;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.CookieStore;
@@ -21,13 +24,12 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.cookie.BasicClientCookie;
+import org.controlsfx.control.Notifications;
 import org.jsoup.Jsoup;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
-
-import eu.hansolo.enzo.notification.Notification.Notifier;
 
 public class NotificationThread extends TimerTask {
   public static int maxNumValue = 0;
@@ -113,7 +115,17 @@ public class NotificationThread extends TimerTask {
             String htmlMessage = idobataMessage.getBody();
             // String message = htmlMessage.replaceAll("^<div>(.+)</div>$", "$1");
             String message = Jsoup.parse(htmlMessage).text();
-            Notifier.INSTANCE.notifyInfo(idobataMessage.getSenderName(), message);
+            
+            if (message.length() > 80) {
+              message = StringUtils.abbreviate(message, 80);
+            }
+            
+            Notifications.create()
+            .title(idobataMessage.getSenderName())
+            .text(message)
+            .hideAfter(new Duration(4000.0))
+            .position(Pos.TOP_RIGHT)
+            .showInformation();
 
             maxNumValue = value;
           }

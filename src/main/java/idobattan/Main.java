@@ -26,7 +26,6 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
@@ -40,8 +39,6 @@ import org.apache.commons.io.FileUtils;
 
 import com.sun.webkit.network.CookieManager;
 
-import eu.hansolo.enzo.notification.Notification.Notifier;
-
 
 public class Main extends Application {
   
@@ -49,12 +46,6 @@ public class Main extends Application {
 
   @Override
   public void start(Stage primaryStage) {
-    // 空のウインドウが発生するのを防止する
-    Notifier.setNotificationOwner(primaryStage);
-    Notifier.setWidth(300.0);
-    //Notifier.s
-    //Notifier.
-
     createMainWindow(primaryStage);
     // setUpTray();
   }
@@ -207,6 +198,4 @@ public class Main extends Application {
   public static void main(String[] args) {
     launch(args);
   }
-
-
 }
