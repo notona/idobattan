@@ -153,11 +153,11 @@ public class Main extends Application {
     });
   }
 
-  public static void setupTray(final Stage stage) {
+  public void setupTray(final Stage stage) {
     SystemTray tray = SystemTray.getSystemTray();
     BufferedImage image3 = null;
     try {
-      image3 = ImageIO.read(new File("idobattan_icon.png"));
+      image3 = ImageIO.read(this.getClass().getResource("/idobattan_icon.png"));
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
