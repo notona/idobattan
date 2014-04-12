@@ -31,7 +31,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 
-public class NotificationThread extends TimerTask {
+public class NotificationTimerTask extends TimerTask {
   public static int maxNumValue = 0;
   
   @Override

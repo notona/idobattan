@@ -111,7 +111,7 @@ public class Main extends Application {
     engine2.load("https://idobata.io/#/timeline");
 
 
-    timer.scheduleAtFixedRate(new NotificationThread(), 0, 10000); // 10sec
+    timer.scheduleAtFixedRate(new NotificationTimerTask(), 0, 10000); // 10sec
   }
 
   private static void hide(final Stage stage) {
@@ -211,7 +211,7 @@ public class Main extends Application {
           Platform.runLater(new Runnable() {
             @Override
             public void run() {
-              NotificationThread.notifiy();
+              NotificationTimerTask.notifiy();
               stage.show();
             }
           });
