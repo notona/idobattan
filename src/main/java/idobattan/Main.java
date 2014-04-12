@@ -50,6 +50,10 @@ public class Main extends Application {
 
   @Override
   public void start(Stage primaryStage) {
+    // アプリケーションのアイコンを設定
+    primaryStage.getIcons().add(
+        new javafx.scene.image.Image(this.getClass().getResourceAsStream("/idobattan_icon.png")));
+
     createMainWindow(primaryStage);
     // setUpTray();
   }
