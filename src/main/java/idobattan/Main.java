@@ -91,7 +91,7 @@ public class Main extends Application {
       // http://stackoverflow.com/questions/14385233/setting-a-cookie-using-javafxs-webengine-webview
       String cookieString = FileUtils.readFileToString(new File("idobata_session.txt"));
 
-      Map<String, List<String>> headers = new LinkedHashMap<String, List<String>>();
+      LinkedHashMap<String, List<String>> headers = new LinkedHashMap<>();
       String[] cookieStrings = cookieString.split(";");
       headers.put("Set-Cookie", Arrays.asList(cookieStrings[0]));
 
