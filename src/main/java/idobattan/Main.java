@@ -64,8 +64,7 @@ public class Main extends Application {
 
     AnchorPane root = null;
     try {
-      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("front.fxml"));
-      // fxmlLoader.setRoot(this);
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/front.fxml"));
       fxmlLoader.setController(this);
 
       root = fxmlLoader.load();
