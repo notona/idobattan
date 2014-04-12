@@ -120,12 +120,14 @@ public class NotificationThread extends TimerTask {
               message = StringUtils.abbreviate(message, 80);
             }
             
-            Notifications.create()
-            .title(idobataMessage.getSenderName())
-            .text(message)
-            .hideAfter(new Duration(4000.0))
-            .position(Pos.TOP_RIGHT)
-            .showInformation();
+            if (message.contains("@all")) {
+              Notifications.create()
+              .title(idobataMessage.getSenderName())
+              .text(message)
+              .hideAfter(new Duration(4000.0))
+              .position(Pos.TOP_RIGHT).owner(null)
+              .show();
+            }
 
             maxNumValue = value;
           }

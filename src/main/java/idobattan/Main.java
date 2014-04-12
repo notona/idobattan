@@ -41,8 +41,6 @@ import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
 
-import com.sun.webkit.network.CookieManager;
-
 
 public class Main extends Application {
 
@@ -182,8 +180,7 @@ public class Main extends Application {
             break;
           case "終了":
             try {
-              CookieManager cookieManager = (CookieManager) CookieHandler.getDefault();
-
+              CookieHandler cookieManager = CookieHandler.getDefault();
               Map<String, List<String>> map =
                   cookieManager.get(new URI("https://idobata.io/"),
                       new HashMap<String, List<String>>());
