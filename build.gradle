@@ -6,6 +6,8 @@ apply from: 'http://dl.bintray.com/content/shemnon/javafx-gradle/0.4.0/javafx.pl
 //sourceCompatibility = 1.8
 //targetCompatibility = 1.8
 
+def defaultEncoding = 'UTF-8'
+[compileJava, compileTestJava]*.options*.encoding = defaultEncoding
 
 mainClassName = 'idobattan.Main'
 
