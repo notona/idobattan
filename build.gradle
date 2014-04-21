@@ -22,9 +22,14 @@ dependencies {
         compile 'com.fasterxml.jackson.core:jackson-databind:2.3.2'
         compile 'org.jsoup:jsoup:1.7.3'
         compile 'org.controlsfx:controlsfx:8.0.5'
-		//compile 'org.slf4j:slf4j-api:1.7.6'
-    	//compile 'org.slf4j:slf4j-simple:1.7.6'
-    	compile 'ch.qos.logback:logback-classic:1.1.2'
+        //compile 'org.slf4j:slf4j-api:1.7.6'
+        //compile 'org.slf4j:slf4j-simple:1.7.6'
+        compile 'ch.qos.logback:logback-classic:1.1.2'
         testCompile "junit:junit:4.11" 
 }
 
+javafx {
+        // sample
+        // https://bitbucket.org/shemnon/javafx-gradle/src/54fd65de97141f4f6bb354ddc1c5ebbf973124ac/samples/FullyExpressed/build.gradle?at=master
+        jvmArgs = ['-Dfile.encoding=UTF-8']
+}
