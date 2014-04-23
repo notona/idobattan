@@ -26,12 +26,15 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.cookie.BasicClientCookie;
 import org.controlsfx.control.Notifications;
 import org.jsoup.Jsoup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 
 public class NotificationTimerTask extends TimerTask {
+  private static Logger logger = LoggerFactory.getLogger(NotificationTimerTask.class);
   public static int maxNumValue = 0;
   
   @Override
@@ -70,7 +73,7 @@ public class NotificationTimerTask extends TimerTask {
         cookie.setPath("/");
         cookieStore.addCookie(cookie);
       }
-      // System.out
+      
       HttpGet get = new HttpGet("https://idobata.io/api/messages/");
       DefaultHttpClient client = new DefaultHttpClient();
       client.setCookieStore(cookieStore);
@@ -98,7 +101,7 @@ public class NotificationTimerTask extends TimerTask {
 
       try {
         idobataMessages = objectReader.readValue(body);
-        System.out.println("aaasd");
+        logger.debug("idobata message received");
       } catch (IOException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();

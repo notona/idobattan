@@ -40,9 +40,12 @@ import javafx.stage.WindowEvent;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class Main extends Application {
+  private static Logger logger = LoggerFactory.getLogger(Main.class);
 
   final Timer timer = new Timer();
 
@@ -70,16 +73,14 @@ public class Main extends Application {
       fxmlLoader.setController(this);
 
       root = fxmlLoader.load();
-      System.out.println("tt");
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
-      System.out.println(e.getMessage());
-      System.exit(1);
     }
     Scene scene = new Scene(root);
     stage.setScene(scene);
 
+    
     stage.show();
     Platform.setImplicitExit(false);
     setupTray(stage);
@@ -176,7 +177,7 @@ public class Main extends Application {
         String command = event.getActionCommand();
         switch (command) {
           case "なんか":
-            System.out.println("ss");
+            logger.debug("nanka called");
             break;
           case "終了":
             try {
