@@ -1,7 +1,9 @@
 package idobattan;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.CookieHandler;
 import java.net.URI;
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.TimerTask;
 
 import javafx.application.Platform;
@@ -122,13 +125,29 @@ public class NotificationTimerTask extends TimerTask {
               message = StringUtils.abbreviate(message, 80);
             }
             
-            if (message.contains("@all")) {
-              Notifications.create()
-              .title(idobataMessage.getSenderName())
-              .text(message)
-              .hideAfter(new Duration(4000.0))
-              .position(Pos.TOP_RIGHT).owner(null)
-              .show();
+            Properties prop = new Properties();
+            InputStream is;
+            try {
+              is = NotificationTimerTask.class.getResourceAsStream("/config.xml");
+              prop.loadFromXML(is); // after this, closed automatically
+            } catch (Exception e) {
+              logger.error("error", e);
+            }
+            
+            String keywordString = prop.getProperty("keywords");
+            String[] keywords = keywordString.split(",");
+
+            for (String keyword : keywords) {
+              String trimedKeyword = keyword.trim();
+              logger.debug(trimedKeyword);
+              if (message.contains(trimedKeyword)) {
+                Notifications.create()
+                .title(idobataMessage.getSenderName())
+                .text(message)
+                .hideAfter(new Duration(4000.0))
+                .position(Pos.TOP_RIGHT).owner(null)
+                .show();
+              }
             }
 
             maxNumValue = value;
