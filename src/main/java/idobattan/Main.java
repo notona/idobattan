@@ -73,9 +73,8 @@ public class Main extends Application {
       fxmlLoader.setController(this);
 
       root = fxmlLoader.load();
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+    } catch (Exception e) {
+      logger.error("error", e);
     }
     Scene scene = new Scene(root);
     stage.setScene(scene);
@@ -100,8 +99,7 @@ public class Main extends Application {
       CookieHandler.getDefault().put(new URI("https://idobata.io"), headers);
 
     } catch (Exception e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      logger.error("error", e);
     }
 
 
@@ -142,8 +140,7 @@ public class Main extends Application {
               try {
                 desktop.browse(new URI(loc));
               } catch (IOException | URISyntaxException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                logger.error("error", e);
               }
             }
           });
@@ -158,15 +155,13 @@ public class Main extends Application {
     try {
       image3 = ImageIO.read(this.getClass().getResource("/idobattan_icon.png"));
     } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      logger.error("error", e);
     }
 
     stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
       @Override
       public void handle(WindowEvent arg0) {
-        // TODO Auto-generated method stub
         hide(stage);
       }
     });
@@ -189,8 +184,7 @@ public class Main extends Application {
               String allCookieString = map.get("Cookie").get(0);
               FileUtils.writeStringToFile(new File("idobata_session.txt"), allCookieString);
             } catch (Exception e) {
-              // TODO Auto-generated catch block
-              e.printStackTrace();
+              logger.error("error", e);
             }
 
             System.exit(0);
@@ -222,8 +216,7 @@ public class Main extends Application {
     try {
       tray.add(icon2);
     } catch (AWTException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      logger.error("error", e);
     }
   }
 

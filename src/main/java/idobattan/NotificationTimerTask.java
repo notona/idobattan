@@ -103,8 +103,7 @@ public class NotificationTimerTask extends TimerTask {
         idobataMessages = objectReader.readValue(body);
         logger.debug("idobata message received");
       } catch (IOException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+        logger.error("error", e);
       }
 
       if (maxNumValue == 0 && idobataMessages.size() != 0) {
@@ -138,8 +137,7 @@ public class NotificationTimerTask extends TimerTask {
       }
 
     } catch (IOException | URISyntaxException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      logger.error("error", e);
     }
   }
 }
