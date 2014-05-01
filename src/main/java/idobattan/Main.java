@@ -114,8 +114,7 @@ public class Main extends Application {
     });
   }
 
-  public static void setDefaultBrowser(final WebEngine webEngine) {
-    final Desktop desktop = Desktop.getDesktop();
+  public void setDefaultBrowser(final WebEngine webEngine) {
     webEngine.locationProperty().addListener(new ChangeListener<String>() {
       @Override
       public void changed(ObservableValue<? extends String> ov, final String oldLoc,
@@ -124,12 +123,8 @@ public class Main extends Application {
           Platform.runLater(new Runnable() {
             @Override
             public void run() {
-              webEngine.load(oldLoc);
-              try {
-                desktop.browse(new URI(loc));
-              } catch (IOException | URISyntaxException e) {
-                logger.error("error", e);
-              }
+                getHostServices().showDocument(loc);
+                webEngine.load(oldLoc);
             }
           });
         }
