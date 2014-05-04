@@ -33,4 +33,23 @@ javafx {
         // sample
         // https://bitbucket.org/shemnon/javafx-gradle/src/54fd65de97141f4f6bb354ddc1c5ebbf973124ac/samples/FullyExpressed/build.gradle?at=master
         jvmArgs = ['-Dfile.encoding=UTF-8']
+
+        icons {
+                shortcut = [
+                        'icon-256.png'
+                ]
+        }
+
 }
+
+task copyFiles (type:Copy) {
+    from('/src/main/resources') {
+        include 'config.xml'
+    }
+    into '/build/distributions/bundles/idobattan'
+}
+
+assemble.finalizedBy copyFiles
+
+jar.exclude 'config.xml'
+
