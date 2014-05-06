@@ -183,6 +183,7 @@ public class Main extends Application {
     menu.add(new MenuItem("終了")).addActionListener(menuActionListener);
 
     final TrayIcon icon2 = new TrayIcon(image3, "idobattan", menu);
+    icon2.setImageAutoSize(true);
     icon2.addMouseListener(new MouseAdapter() {
       public void mousePressed(MouseEvent event) {
         if (event.getButton() == MouseEvent.BUTTON1) {
