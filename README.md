@@ -19,6 +19,6 @@ $ ./gradlew.bat build
 $ ./gradlew.bat run
 ```
 
-### licence
+### Licence
 3-clause BSD license
 
