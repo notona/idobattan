@@ -125,6 +125,11 @@ public class Main extends Application {
             public void run() {
                 getHostServices().showDocument(loc);
                 webEngine.load(oldLoc);
+              try {
+                Thread.sleep(1000);
+              } catch (InterruptedException e) {
+                logger.error("error", e);
+              }
             }
           });
         }
