@@ -43,10 +43,10 @@ javafx {
 }
 
 task copyFiles (type:Copy) {
-    from('/src/main/resources') {
+    from('/') {
         include 'config.xml'
     }
-    into '/build/distributions/bundles/idobattan'
+    into '/build/distributions/bundles/idobattan/app'
 }
 
 assemble.finalizedBy copyFiles

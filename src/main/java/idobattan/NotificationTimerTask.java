@@ -128,7 +128,7 @@ public class NotificationTimerTask extends TimerTask {
             Properties prop = new Properties();
             InputStream is;
             try {
-              is = NotificationTimerTask.class.getResourceAsStream("/config.xml");
+              is = new FileInputStream("config.xml");
               prop.loadFromXML(is); // after this, closed automatically
             } catch (Exception e) {
               logger.error("error", e);
