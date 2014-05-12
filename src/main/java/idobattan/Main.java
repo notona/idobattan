@@ -193,12 +193,9 @@ public class Main extends Application {
     icon2.addMouseListener(new MouseAdapter() {
       public void mousePressed(MouseEvent event) {
         if (event.getButton() == MouseEvent.BUTTON1) {
-          Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-              NotificationTimerTask.notifiy();
-              stage.show();
-            }
+          Platform.runLater(() -> {
+            stage.setIconified(false);
+            stage.show();
           });
         }
       }
