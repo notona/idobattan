@@ -120,18 +120,19 @@ public class Main extends Application {
       public void changed(ObservableValue<? extends String> ov, final String oldLoc,
           final String loc) {
         if (!loc.contains("idobata.io")) {
-          Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                getHostServices().showDocument(loc);
-                webEngine.load(oldLoc);
-              try {
-                Thread.sleep(1000);
-              } catch (InterruptedException e) {
-                logger.error("error", e);
-              }
-            }
-          });
+          if (!oldLoc.contains("idobata.io")) {
+            // 移動前のURLが何故か idobata.io ではないケースがある（高速でリダイレクトされたとき？）
+            // しかたないので、そのときは idobata のトップページに戻す
+            Platform.runLater(() -> {
+              getHostServices().showDocument(loc);
+              webEngine.load("https://idobata.io/");
+            });
+          } else {
+            Platform.runLater(() -> {
+              getHostServices().showDocument(loc);
+              webEngine.load(oldLoc);
+            });
+          }
         }
       }
     });
