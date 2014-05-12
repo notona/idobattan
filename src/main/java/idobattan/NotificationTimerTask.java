@@ -43,11 +43,7 @@ public class NotificationTimerTask extends TimerTask {
   
   @Override
   public void run() {
-    Platform.runLater(new Runnable() {
-      public void run() {
-        notifiy();
-      }
-  });
+    Platform.runLater(() -> notifiy());
     
   }
   
@@ -56,7 +52,7 @@ public class NotificationTimerTask extends TimerTask {
     try {
       Map<String, List<String>> map =
           cookieManager.get(new URI("https://idobata.io/"),
-              new HashMap<String, List<String>>());
+              new HashMap<>());
 
       String allCookieString = map.get("Cookie").get(0);
       String[] cookieStrings = allCookieString.split(";");
