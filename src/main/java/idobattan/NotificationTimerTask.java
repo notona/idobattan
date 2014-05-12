@@ -1,5 +1,23 @@
 package idobattan;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.CookieStore;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicCookieStore;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.cookie.BasicClientCookie;
+import org.controlsfx.control.Notifications;
+import org.jsoup.Jsoup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -18,23 +36,6 @@ import java.util.TimerTask;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.util.Duration;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.CookieStore;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.cookie.BasicClientCookie;
-import org.controlsfx.control.Notifications;
-import org.jsoup.Jsoup;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 
 public class NotificationTimerTask extends TimerTask {
   private static Logger logger = LoggerFactory.getLogger(NotificationTimerTask.class);
@@ -57,11 +58,6 @@ public class NotificationTimerTask extends TimerTask {
           cookieManager.get(new URI("https://idobata.io/"),
               new HashMap<String, List<String>>());
 
-      // Content returnContent =
-      // Request.Get("https://idobata.io/api/messages/")//.setHeader("X-API-Token",
-      // "992ce37553d99d131bd55384ae9f9300")
-      // .execute().returnContent();
-
       String allCookieString = map.get("Cookie").get(0);
       String[] cookieStrings = allCookieString.split(";");
 
@@ -78,11 +74,13 @@ public class NotificationTimerTask extends TimerTask {
       }
       
       HttpGet get = new HttpGet("https://idobata.io/api/messages/");
-      DefaultHttpClient client = new DefaultHttpClient();
-      client.setCookieStore(cookieStore);
+      HttpClient httpclient = HttpClientBuilder.create()
+          .setUserAgent("idobattan")
+          .setDefaultCookieStore(cookieStore)
+          .build();
+      HttpResponse response = httpclient.execute(get);
 
       // get the cookies
-      HttpResponse response = client.execute(get);
       HttpEntity entity = response.getEntity();
 
       BufferedReader bufferedReader =
@@ -147,6 +145,7 @@ public class NotificationTimerTask extends TimerTask {
                 .hideAfter(new Duration(4000.0))
                 .position(Pos.TOP_RIGHT).owner(null)
                 .show();
+                break;
               }
             }
 
