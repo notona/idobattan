@@ -101,19 +101,6 @@ public class Main extends Application {
     timer.scheduleAtFixedRate(new NotificationTimerTask(), 0, 10000); // 10sec
   }
 
-  private static void hide(final Stage stage) {
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        if (SystemTray.isSupported()) {
-          stage.hide();
-        } else {
-          System.exit(0);
-        }
-      }
-    });
-  }
-
   public void setDefaultBrowser(final WebEngine webEngine) {
     webEngine.locationProperty().addListener(new ChangeListener<String>() {
       @Override
@@ -139,6 +126,10 @@ public class Main extends Application {
   }
 
   public void setupTray(final Stage stage) {
+    if (!SystemTray.isSupported()) {
+      return;
+    }
+
     SystemTray tray = SystemTray.getSystemTray();
     BufferedImage image3 = null;
     try {
@@ -148,10 +139,11 @@ public class Main extends Application {
     }
 
     stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-
       @Override
       public void handle(WindowEvent arg0) {
-        hide(stage);
+        Platform.runLater(() -> {
+          stage.hide();
+        });
       }
     });
 
