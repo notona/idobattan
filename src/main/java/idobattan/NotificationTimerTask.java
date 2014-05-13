@@ -79,13 +79,12 @@ public class NotificationTimerTask extends TimerTask {
       // get the cookies
       HttpEntity entity = response.getEntity();
 
-      BufferedReader bufferedReader =
-          new BufferedReader(new InputStreamReader(entity.getContent()));
-
-      String line;
       String body = "";
-      while ((line = bufferedReader.readLine()) != null) {
-        body += line;
+      try (BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent()))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+          body += line;
+        }
       }
 
       ObjectMapper objectMapper = new ObjectMapper();
@@ -120,14 +119,10 @@ public class NotificationTimerTask extends TimerTask {
             }
             
             Properties prop = new Properties();
-            InputStream is;
-            try {
-              is = new FileInputStream("config.xml");
+            try (InputStream is = new FileInputStream("config.xml")) {
               prop.loadFromXML(is); // after this, closed automatically
-            } catch (Exception e) {
-              logger.error("error", e);
             }
-            
+
             String keywordString = prop.getProperty("keywords");
             String[] keywords = keywordString.split(",");
 
