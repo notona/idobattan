@@ -98,7 +98,7 @@ public class Main extends Application {
     engine2.load("https://idobata.io/#/timeline");
 
 
-    timer.scheduleAtFixedRate(new NotificationTimerTask(), 0, 20000); // 20sec
+    timer.scheduleAtFixedRate(new NotificationTimerTask(), 0, 10000); // 10sec
   }
 
   public void setDefaultBrowser(final WebEngine webEngine) {
