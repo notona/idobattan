@@ -32,7 +32,7 @@ dependencies {
 javafx {
         // sample
         // https://bitbucket.org/shemnon/javafx-gradle/src/54fd65de97141f4f6bb354ddc1c5ebbf973124ac/samples/FullyExpressed/build.gradle?at=master
-        jvmArgs = ['-Dfile.encoding=UTF-8']
+        jvmArgs = ['-Dfile.encoding=UTF-8', '-Djava.net.preferIPv4Stack=true',  '-Djava.net.preferIPv6Addresses=false']
 
         icons {
                 shortcut = [
