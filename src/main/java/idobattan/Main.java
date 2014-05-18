@@ -2,6 +2,7 @@ package idobattan;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -102,26 +103,18 @@ public class Main extends Application {
   }
 
   public void setDefaultBrowser(final WebEngine webEngine) {
-    webEngine.locationProperty().addListener(new ChangeListener<String>() {
+    webEngine.locationProperty().addListener(new InvalidationListener() {
       @Override
-      public void changed(ObservableValue<? extends String> ov, final String oldLoc,
-          final String loc) {
-        if (!loc.contains("idobata.io")) {
-          if (!oldLoc.contains("idobata.io")) {
-            // 移動前のURLが何故か idobata.io ではないケースがある（高速でリダイレクトされたとき？）
-            // しかたないので、そのときは idobata のトップページに戻す
-            Platform.runLater(() -> {
-              getHostServices().showDocument(loc);
-              webEngine.load("https://idobata.io/");
-            });
-          } else {
-            Platform.runLater(() -> {
-              getHostServices().showDocument(loc);
-              webEngine.load(oldLoc);
-            });
-          }
+      public void invalidated(javafx.beans.Observable observable) {
+        ObservableValue o = (ObservableValue)observable;
+        String nextLocation = (String)o.getValue();
+        if (!nextLocation.contains("idobata.io")) {
+          Platform.runLater(() -> {
+            webEngine.getLoadWorker().cancel();
+            getHostServices().showDocument(nextLocation);
+          });
         }
-      }
+      } 
     });
   }
 
