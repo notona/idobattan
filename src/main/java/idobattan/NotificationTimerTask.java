@@ -130,13 +130,23 @@ public class NotificationTimerTask extends TimerTask {
               String trimedKeyword = keyword.trim();
               logger.debug(trimedKeyword);
               if (message.contains(trimedKeyword)) {
-                Notifications.create()
-                .title(idobataMessage.getSenderName())
-                .text(message)
-                .hideAfter(new Duration(4000.0))
-                .position(Pos.TOP_RIGHT).owner(null)
-                .show();
-                break;
+                  String os = System.getProperty("os.name").toLowerCase();
+                  if (os.indexOf("mac") >= 0) {
+                      try {
+                          String[] cmd = {"osascript", "-e",   "display notification \"" + message + "\" with title \"" + idobataMessage.getSenderName() + "\""};
+                          Runtime.getRuntime().exec(cmd);
+                      } catch (IOException e) {
+                          logger.error("error", e);
+                      }
+                  } else {
+                      Notifications.create()
+                              .title(idobataMessage.getSenderName())
+                              .text(message)
+                              .hideAfter(new Duration(4000.0))
+                              .position(Pos.TOP_RIGHT).owner(null)
+                              .show();
+                      break;
+                  }
               }
             }
 
