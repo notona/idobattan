@@ -76,20 +76,24 @@ public class Main extends Application {
     WebEngine engine = webView.getEngine();
     setDefaultBrowser(engine);
 
+    // http://stackoverflow.com/questions/14385233/setting-a-cookie-using-javafxs-webengine-webview
     try {
-      // http://stackoverflow.com/questions/14385233/setting-a-cookie-using-javafxs-webengine-webview
-      String cookieString = FileUtils.readFileToString(new File("idobata_session.txt"));
-
-      LinkedHashMap<String, List<String>> headers = new LinkedHashMap<>();
-      String[] cookieStrings = cookieString.split(";");
-      headers.put("Set-Cookie", Arrays.asList(cookieStrings[0]));
-
-      CookieHandler default1 = CookieHandler.getDefault();
-      CookieHandler.getDefault().put(new URI("https://idobata.io"), headers);
-
-    } catch (Exception e) {
-      logger.error("error", e);
+      Config.loadConfig("config2.xml");
+    } catch (IOException e) {
+      // do not nothing
     }
+    String idobata_session_cookie_data = Config.getProperty("idobata_session_cookie_data");
+
+    if (idobata_session_cookie_data != null) {
+      try {
+        LinkedHashMap<String, List<String>> headers = new LinkedHashMap<>();
+        headers.put("Set-Cookie", Arrays.asList(idobata_session_cookie_data));
+        CookieHandler.getDefault().put(URI.create("https://idobata.io"), headers);
+      } catch (IOException e) {
+        logger.error("error", e);
+      }
+    }
+
 
 
     engine.load("https://idobata.io/users/sign_in");
@@ -156,7 +160,12 @@ public class Main extends Application {
                       new HashMap<String, List<String>>());
 
               String allCookieString = map.get("Cookie").get(0);
-              FileUtils.writeStringToFile(new File("idobata_session.txt"), allCookieString);
+
+              String[] cookieStrings = allCookieString.split(";");
+              String cookieString = cookieStrings[0];
+
+              Config.setProperty("idobata_session_cookie_data", cookieString);
+              Config.saveConfig();
             } catch (Exception e) {
               logger.error("error", e);
             }
