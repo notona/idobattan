@@ -78,7 +78,7 @@ public class Main extends Application {
 
     // http://stackoverflow.com/questions/14385233/setting-a-cookie-using-javafxs-webengine-webview
     try {
-      Config.loadConfig("config2.xml");
+      Config.loadConfig();
     } catch (IOException e) {
       // do not nothing
     }
