@@ -68,7 +68,26 @@ public class Main extends Application {
     Scene scene = new Scene(root);
     stage.setScene(scene);
 
-    
+    // http://stackoverflow.com/questions/14385233/setting-a-cookie-using-javafxs-webengine-webview
+    try {
+      Config.loadConfig();
+    } catch (IOException e) {
+      // do not nothing
+    }
+
+    String mainWindowWidthString = Config.getProperty("main_window_width");
+    if (mainWindowWidthString != null) {
+      stage.setWidth(Double.parseDouble(mainWindowWidthString));
+    }
+
+    String mainWindowHeightString = Config.getProperty("main_window_height");
+    if (mainWindowHeightString != null) {
+      stage.setHeight(Double.parseDouble(mainWindowHeightString));
+    }
+
+    // タイトルを設定しないと mac で untitled と表示されるのでウインドウタイトルを設定するようにした
+    stage.setTitle("idobattan");
+
     stage.show();
     Platform.setImplicitExit(false);
     setupTray(stage);
@@ -76,12 +95,6 @@ public class Main extends Application {
     WebEngine engine = webView.getEngine();
     setDefaultBrowser(engine);
 
-    // http://stackoverflow.com/questions/14385233/setting-a-cookie-using-javafxs-webengine-webview
-    try {
-      Config.loadConfig();
-    } catch (IOException e) {
-      // do not nothing
-    }
     String idobata_session_cookie_data = Config.getProperty("idobata_session_cookie_data");
 
     if (idobata_session_cookie_data != null) {
@@ -165,6 +178,9 @@ public class Main extends Application {
               String cookieString = cookieStrings[0];
 
               Config.setProperty("idobata_session_cookie_data", cookieString);
+              Config.setProperty("main_window_width", String.valueOf(stage.getWidth()));
+              Config.setProperty("main_window_height", String.valueOf(stage.getHeight()));
+
               Config.saveConfig();
             } catch (Exception e) {
               logger.error("error", e);
