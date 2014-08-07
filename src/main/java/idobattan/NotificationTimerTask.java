@@ -131,13 +131,17 @@ public class NotificationTimerTask extends TimerTask {
               logger.debug(trimedKeyword);
               if (message.contains(trimedKeyword)) {
                   String os = System.getProperty("os.name").toLowerCase();
+
                   if (os.indexOf("mac") >= 0) {
+                    NativeNotification.notfify(idobataMessage.getSenderName(), message);
+                    /*
                       try {
                           String[] cmd = {"osascript", "-e",   "display notification \"" + message + "\" with title \"" + idobataMessage.getSenderName() + "\""};
                           Runtime.getRuntime().exec(cmd);
                       } catch (IOException e) {
                           logger.error("error", e);
                       }
+                      */
                   } else {
                       Notifications.create()
                               .title(idobataMessage.getSenderName())

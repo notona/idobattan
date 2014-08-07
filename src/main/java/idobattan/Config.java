@@ -17,7 +17,7 @@ public class Config {
   }
 
   public static void loadConfig() throws IOException {
-    String savePath = buildSaveDir();
+    String savePath = buildSaveDir() + "/config.xml";
 
     try (InputStream is = new FileInputStream(savePath)) {
       properties.loadFromXML(is);
