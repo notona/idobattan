@@ -4,7 +4,7 @@ idobattan
 Multi platform client for [idobata.io](https://idobata.io/)
 
 ## For Developers
-Be careful, This application works with only Java8 and over. 
+Be careful, This application works with only Java8 u20ea and over. 
 
 setup is so easy. just enter the following command.
 
