@@ -1,3 +1,15 @@
+# NOTE: I have released a idobattan2 in other repository
+
+https://github.com/notona/idobattan2
+
+this product has not mentenanced
+
+--------------------------
+
+
+
+
+
 idobattan
 =========
 
